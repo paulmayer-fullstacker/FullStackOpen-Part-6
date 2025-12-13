@@ -1,23 +1,23 @@
 // src/components/AnecdoteForm.jsx:
 import { useDispatch } from 'react-redux'
-import { createNewAnecdote } from '../reducers/anecdoteReducer'
+import { createNewAnecdote } from '../reducers/anecdoteReducer'  // Import action creator for adding a new anecdote, from anecdoteReducer
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch() 
 
    const addAnecdote = (event) => {  // Handler for uncontrolled form submission
-    event.preventDefault() // Prevents the page from reloading
+    event.preventDefault()           // Prevents the page from reloading (default submission action.)
     
     const content = event.target.anecdote.value   // Access the input value directly from the form element (uncontrolled)
-    event.target.anecdote.value = '' // Clear the input field
+    event.target.anecdote.value = ''              // Clear the input field after submission.
 
-    dispatch(createNewAnecdote(content))  // Dispatch result of the action creator exported from anecdoteReducer.
+    dispatch(createNewAnecdote(content))  // Dispatch the CREATE action with the new anecdote content (result of action creator imported from anecdoteReducer).
   }
 
   return (
     <form onSubmit={addAnecdote}>
       <div>
-        <input name="anecdote"/> 
+        <input name="anecdote"/>    {/* The name attribute allows access via event.target.anecdote.value */}
       </div>
       <button>create</button>
     </form>
