@@ -1,19 +1,17 @@
 // src/reducers/filterReducer.js
+import { createSlice } from '@reduxjs/toolkit'
 
-const filterReducer = (state = '', action) => {   // Initial state is empty string.
-  switch (action.type) {
-    case 'SET_FILTER':
-      return action.payload   // The state for the filter is text string input by the user. For the filter reducer: state is just the filter text string.
-    default:
-      return state            // Return the current (unchanged) state for any unhandled action.
+const filterSlice = createSlice({
+  name: 'filter',
+  initialState: '',
+  reducers: {
+    // Replaceing the 'SET_FILTER' case in our switch statement
+    setFilter(state, action) {
+      return action.payload
+    }
   }
-}
+})
 
-export const setFilter = (filterText) => {   // Action creator for setting the filter
-  return {
-    type: 'SET_FILTER',
-    payload: filterText, // The content of the action is the filter text
-  }
-}
-
-export default filterReducer
+// createSlice automatically generates action creators with the same name as the reducers
+export const { setFilter } = filterSlice.actions
+export default filterSlice.reducer

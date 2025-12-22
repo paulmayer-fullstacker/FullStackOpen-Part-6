@@ -1,4 +1,6 @@
 // src/reducers/anecdoteReducer.js:
+import { createSlice, current } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [            // ... initial anecdote content strings
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -8,7 +10,7 @@ const anecdotesAtStart = [            // ... initial anecdote content strings
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const getId = () => (100000 * Math.random()).toFixed(0)    // Helper for generating unique IDs
+const getId = () => (100000 * Math.random()).toFixed(0)    // Helper for generating unique IDs.
 
 const asObject = anecdote => {         // Helper to transform an anecdote string into an anecdote object (content, id, votes).
   return {
@@ -18,49 +20,30 @@ const asObject = anecdote => {         // Helper to transform an anecdote string
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)    // Create initial state array of anecdote objects
+const initialState = anecdotesAtStart.map(asObject)    // Create initial state array of anecdote objects.
 
-export const voteForAnecdote = (id) => {  // Action Creator for anecdote voting. Returns an action object to vote for an anecdote.
-    return {
-        type: 'VOTE',
-        data: { id }
-    }
-}
-
-export const createNewAnecdote = (content) => {  // Action Creator for creating anecdotes. It takes the content and returns the complete action object.
-    return {
-        type: 'CREATE',
-        data: {
-            content: content,
-            id: getId(),
-            votes: 0
-        }
-    }
-}
-
-const anecdoteReducer = (state = initialState, action) => {  // The reducer function: takes current state and action, returns new state.
-  console.log('state now: ', state)
-  console.log('action', action)
-
-  switch (action.type) {
-    case 'VOTE': {  // Handle the VOTE action.
-      const id = action.data.id  // Identify the anecdote to be updated, by its id.
-      const anecdoteToUpdate = state.find(n => n.id === id)  // Find the target anecdote
-      
-      const updatedAnecdote = {  // Create a new updated anecdote object (orininal anecdote is immutable).
-        ...anecdoteToUpdate,
-        votes: anecdoteToUpdate.votes + 1
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',          // Key used in action types (e.g., 'anecdotes/voteForAnecdote').
+  initialState,
+  reducers: {
+    createNewAnecdote(state, action) {
+      // The  Immer library allows us use mutate state using .push() safely! A new state object is actually created maintaining immutability.
+      state.push({
+        content: action.payload,
+        id: getId(),
+        votes: 0
+      })
+    },
+    voteForAnecdote(state, action) {
+      const id = action.payload                   // We expect the ID to be passed as the payload
+      const anecdoteToVote = state.find(a => a.id === id)
+      if (anecdoteToVote) {
+        anecdoteToVote.votes += 1              // Mutation is safe here as we are employing createSlice from the Redux Tool Kit.
       }
-      
-      return state.map(anecdote =>  // Return a new state array, with new anecdote.
-        anecdote.id !== id ? anecdote : updatedAnecdote    // Map over the state array: replace the old anecdote with the updated one.
-      )
+      console.log(current(state))   // On vote log state to console. // 'current' is used to log the proxy state to a readable object
     }
-    case 'CREATE': // Handle the CREATE action.
-      return [...state, action.data] // Add the new anecdote object to the state array.
-    default:
-      return state    // Return the current (unchanged) state for any unhandled action.
   }
-}
+})
 
-export default anecdoteReducer
+export const { createNewAnecdote, voteForAnecdote } = anecdoteSlice.actions   // Use destructuring to export the auto-generated action creators.
+export default anecdoteSlice.reducer                    // Export reducer function
