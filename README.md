@@ -4,12 +4,6 @@
 
 Herewith my submission of the exercises required for Module 6. The module repo contains multiple projects, which address different aspects of state management.
 
-- The unicafe-redux project introduces state management with Redux, through exercises 6.1 and 6.2.
-
-- The redux-anecdotes project further explores state management with Redux, while refining the anecdotes application. It addresses the majority of the exercises from 6.3 to 6.19. 
-
-- Finally the query-anecdotes project employs the React Query library in addressing exercises 6.20 to 6.24.
-
 ---
 
 ## The Solution:
