@@ -13,6 +13,8 @@ The solution consists of three distinct project files contained within my FullSt
 - The redux-anecdotes project further explores state management with Redux, while refining the anecdotes application. It addresses the majority of the exercises from 6.3 to 6.19. 
 - Finally the query-anecdotes project employs the React Query library in addressing exercises 6.20 to 6.24
 
+The scripts have been judiciously commented with inline documentation. So, we will not indulge in further explanation. We will simply cover the bare minimum information required to run the project applications.
+
 ### Development Snapshots (Tags):
 
 Tags have been used to take development snapshots and key milestones. The tags are:
@@ -21,8 +23,6 @@ Tags have been used to take development snapshots and key milestones. The tags a
 - milestone/part6-exercises-6.14-6.19
 
 Exercises 6.20-6.24 represent the final stages of development for the repo. 
-
-The scripts have been judiciously commented with inline documentation. So, we will not indulge in further explanation. We will simply cover the bare minimum information required to run the project applications.
 
 ---
 
